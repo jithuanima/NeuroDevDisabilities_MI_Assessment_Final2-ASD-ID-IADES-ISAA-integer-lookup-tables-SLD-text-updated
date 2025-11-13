@@ -1,0 +1,1036 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Disability Assessment Tool for Childhood Neurodevelopmental Disorders and Mental Illnesses — v3.4.6</title>
+<style>
+  :root{
+    --primary:#2f49a6;
+    --muted:#506197;
+    --accent:#501177;
+    --bg:#eff7fb;
+    --linkedin:#2f49a6;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{font-family:Segoe UI,Arial,sans-serif;margin:0;padding:0;background:var(--bg);color:#222;-webkit-text-size-adjust:100%}
+  .wrap{max-width:1100px;margin:0 auto;padding:12px}
+  header{padding:6px 0}
+  h1{margin:0;font-size:1.15rem;color:var(--primary)}
+  .subtitle{margin-top:6px;color:var(--muted);font-size:0.92rem}
+  .flash{background:#fff7e6;border:1px solid #ffd38a;padding:10px;border-radius:8px;color:#7a4b00;display:flex;gap:10px;margin-top:8px}
+  .flash .dot{width:11px;height:11px;border-radius:50%;background:#f39c12;animation:blink 1.2s linear infinite;margin-top:3px}
+  @keyframes blink{0%{opacity:1}50%{opacity:.25}100%{opacity:1}}
+  .toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:12px}
+  button.btn{background:var(--primary);color:#fff;border:0;padding:8px 12px;border-radius:8px;cursor:pointer;font-weight:700;font-size:0.95rem}
+  button.ghost{background:transparent;border:1px solid #cfe0ff;color:var(--primary);font-weight:700;padding:7px 10px;border-radius:8px}
+  .row{display:flex;gap:12px;flex-wrap:wrap;margin-top:12px}
+  .card{padding:10px;border-radius:8px;background:#fff;border:1px solid #eef3ff;flex:1;min-width:220px}
+  label{display:block;margin:8px 0 6px;font-weight:700;color:#264;font-size:0.95rem}
+  input,select,textarea{width:100%;padding:10px;border:1.4px solid #d6e0fb;border-radius:8px;font-size:0.95rem}
+  input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+  .section{margin:12px 0;padding:12px;border-radius:8px;display:grid;grid-template-columns:1fr 220px;gap:12px;align-items:start}
+  .band-vsms{border-left:8px solid #3a4aa7;background:#f3f6ff}
+  .band-asd{border-left:8px solid #5c6bc0;background:#f6f7ff}
+  .band-sld{border-left:8px solid #8e44ad;background:#faf6ff}
+  .band-ideas{border-left:8px solid #2e9f6e;background:#f4fbf6}
+  .left{padding:6px}
+  .right{padding:8px;background:#fff;border-radius:6px;border:1px dashed #e6eef9;min-height:72px}
+  .result-percent{font-size:1.45rem;font-weight:900;color:var(--accent);text-align:right}
+  .remark{font-size:.92rem;color:#222;margin-top:8px;background:#fff;padding:9px;border-radius:6px;border-left:4px solid #ffd;white-space:pre-wrap}
+  .note{font-size:.88rem;color:var(--muted);margin-top:6px}
+  .inline-check{display:inline-flex;align-items:center;gap:8px}
+  .tooltipBtn{background:#e7eefc;border:0;border-radius:50%;width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;margin-left:6px;font-weight:700;color:var(--primary)}
+  .tooltip{display:none;background:#fff;border:1px solid #e6eef9;padding:8px;border-radius:6px;margin-top:6px;font-size:0.86rem;color:#333;box-shadow:0 6px 18px #0002}
+  .tooltip.show{display:block}
+  .collapse-toggle{background:transparent;border:1px dashed #cfe0ff;padding:8px 10px;border-radius:8px;cursor:pointer;color:var(--primary);font-weight:700}
+  .bottom-bar{display:flex;gap:8px;justify-content:center;margin-top:18px;padding:8px}
+  .creator{font-size:13px;color:var(--linkedin);position:fixed;right:12px;bottom:12px;display:flex;align-items:center;gap:8px;background:#e8f2ff;padding:8px;border-radius:8px;border:1px solid #d1e4ff;font-weight:700;z-index:9999}
+  .creator a{color:var(--linkedin);text-decoration:none;font-weight:700}
+
+  .lookupToggle{background:transparent;border:1px solid #d6e0fb;padding:6px 8px;border-radius:6px;cursor:pointer;font-size:0.9rem;margin-top:8px}
+  .lookupTable{display:none;margin-top:8px;border:1px solid #e6eef9;background:#fff;padding:10px;border-radius:6px;font-size:0.9rem;max-height:220px;overflow:auto}
+  .lookupTable table{border-collapse:collapse;width:100%}
+  .lookupTable th,.lookupTable td{border:1px solid #eef3ff;padding:6px;text-align:left}
+  .lookupNote{font-size:0.85rem;color:var(--muted);margin-top:6px}
+
+  @media (max-width:880px){
+    .section{grid-template-columns:1fr}
+    .right{order:2}
+    .result-percent{font-size:1.2rem}
+    .tooltip{position:relative;z-index:20}
+    .toolbar{position:sticky;top:0;background:linear-gradient(90deg,#fff,#fbfdff);padding:8px;border-bottom:1px solid #eef3ff;z-index:40}
+    .creator{position:fixed;right:8px;bottom:8px;padding:6px;font-size:12px}
+  }
+  /* print styles */
+  @media print{
+    body{background:#fff}
+    .wrap{max-width:100%;padding:10px}
+    header, .toolbar, .no-print, .flash{display:block} /* keep flash as requested */
+    .creator{position:fixed;right:10px;bottom:8px;font-size:13px}
+    .container-print-only{display:block}
+    h1{font-size:20px}
+    h2{font-size:18px}
+    .remark{font-size:14px}
+    .result-percent{font-size:20px}
+    body, p, div, span, input{font-size:15px}
+    .lookupTable{display:block;max-height:none}
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Disability Assessment Tool for Childhood Neurodevelopmental Disorders and Mental Illnesses</h1>
+      <div class="subtitle">Verify each disability calculation against the detailed Gazette Notifications before issuing certificates.</div>
+      <div class="flash no-print" role="status" aria-live="polite">
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="dot" aria-hidden="true"></div>
+            <div><strong>This tool is a quick reference aid.</strong></div>
+          </div>
+          <div style="font-size:.88rem;color:#6b4f00">
+            Sources: <strong>MSJE (Dept. EPwD) Notification — 12 Mar 2024 (Paras 3.2.1–3.2.4)</strong>
+            &amp; <strong>Annexure-II No. 4-2/83-HW.III, Ministry of Welfare — 6 Aug 1986 (IDEAS)</strong>.
+          </div>
+        </div>
+      </div>
+
+      <div class="toolbar no-print" id="topToolbar">
+        <button id="printTop" class="btn small">🖨 Print / Save PDF</button>
+        <button id="exportCsvTop" class="btn small">📁 Export CSV</button>
+        <button id="resetTop" class="ghost small">🔄 Reset</button>
+      </div>
+    </header>
+
+    <form id="disabForm" onsubmit="return false">
+      <div class="row card">
+        <div style="flex:1;min-width:140px">
+          <label>Patient Name</label><input id="pname" placeholder="Full name" autocomplete="name" />
+        </div>
+        <div style="width:110px">
+          <label>Age (yrs)</label><input id="page" type="number" min="0" max="120" inputmode="numeric" />
+        </div>
+        <div style="width:120px">
+          <label>Sex</label><select id="psex"><option value=""></option><option>Male</option><option>Female</option><option>Other</option></select>
+        </div>
+        <div style="width:170px">
+          <label>Assessment Date</label><input id="adate" type="date" />
+        </div>
+        <div style="flex:1;min-width:150px">
+          <label>Clinical Psychologist / Assessor</label><input id="psycname" placeholder="Name" />
+        </div>
+        <div style="width:140px">
+          <label>RCI Number</label><input id="rci" placeholder="e.g. A67890" />
+        </div>
+      </div>
+
+      <!-- VSMS -->
+      <section class="section band-vsms">
+        <div class="left">
+          <h2 class="section-title"><span id="vsmsTitle">1. Intellectual Disability</span></h2>
+          <label>VSMS Score</label><input id="vsmsScore" type="number" min="0" max="200" inputmode="numeric" />
+          <div class="note">Enter VSMS score (do not enter ranges).</div>
+
+          <!-- IQ input row (shown when age >= 5) -->
+          <div id="vsmsIQRow" style="display:none;margin-top:8px">
+            <label>IQ Score (not used for % calculation)</label>
+            <input id="vsmsIQ" type="number" min="30" max="160" step="1" placeholder="e.g., 78" />
+            <div class="note">Enter IQ if available. This value is recorded but not used to calculate disability percentage.</div>
+          </div>
+
+          <button type="button" class="lookupToggle no-print" data-target="vsmsLookup">Show lookup table</button>
+          <div id="vsmsLookup" class="lookupTable" aria-hidden="true"></div>
+          <div class="lookupNote">VSMS mapping used to determine diagnosis & percentage.</div>
+        </div>
+        <div class="right">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start">
+            <div style="flex:1">
+              <div style="display:flex;justify-content:space-between;align-items:center">
+                <div style="font-weight:800">Result:</div>
+                <button class="tooltipBtn" type="button" data-target="vsmsTip">i</button>
+              </div>
+              <div id="vsmsRemark" class="remark" style="border-left-color:#3a4aa7">Result: —</div>
+              <div id="vsmsTip" class="tooltip">VSMS → severity mapping per Gazette table. For age &lt;5 show GDD (temporary).</div>
+            </div>
+            <div style="width:160px;margin-left:12px;text-align:right">
+              <div style="color:#666;font-size:.9rem">Diagnosis / Disability</div>
+              <div id="vsmsPercent" class="result-percent">—</div>
+              <div id="vsmsDegree" style="font-weight:700;margin-top:6px;color:#264">—</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ASD -->
+      <section class="section band-asd">
+        <div class="left">
+          <h2 class="section-title">2. Autism Spectrum Disorder</h2>
+          <label class="inline-check"><input id="inclenDiagnosed" type="checkbox" /> <span>INCLEN positive (for young children)</span></label>
+
+          <!-- Manual INCLEN percent input: appears when INCLEN checked -->
+          <div id="inclenManualRow" style="display:none;margin-top:8px">
+            <label>ASD Disability Percentage based on Clinical assessment (allowed 60–79)</label>
+            <input id="inclenManualPercent" type="number" min="60" max="79" step="1" placeholder="Enter 60 to 79" />
+            <div class="note">When INCLEN is checked, enter an integer between 60 and 79. This value will be used for disability calculations instead of an ISAA-derived percent.</div>
+          </div>
+
+          <label>ISAA Total Score</label><input id="isaaScore" type="number" min="0" max="300" inputmode="numeric" />
+          <div class="note">For &lt;6 yrs: use INCLEN if available. If INCLEN is checked, enter a clinical ASD percentage (60–79) which will be used for calculations; ISAA input will be disabled while INCLEN is checked.</div>
+
+          <button type="button" class="lookupToggle no-print" data-target="isaaLookup">Show lookup table</button>
+          <div id="isaaLookup" class="lookupTable" aria-hidden="true"></div>
+          <div class="lookupNote">ISAA → Disability % mapping used for ISAA-based calculations. Scores &lt; 70 are Normal (0%).</div>
+        </div>
+        <div class="right">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start">
+            <div style="flex:1">
+              <div style="display:flex;justify-content:space-between;align-items:center">
+                <div style="font-weight:800">Result:</div>
+                <button class="tooltipBtn" type="button" data-target="isaaTip">i</button>
+              </div>
+              <div id="isaaRemark" class="remark" style="border-left-color:#5c6bc0">Result: —</div>
+              <div id="isaaTip" class="tooltip">ISAA norms and percentage mapping updated per supplied table.</div>
+            </div>
+            <div style="width:140px;margin-left:12px;text-align:right">
+              <div style="color:#666;font-size:.9rem">Disability</div>
+              <div id="isaaPercent" class="result-percent">—</div>
+              <div id="isaaDegree" style="font-weight:700;margin-top:6px;color:#264">—</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLD -->
+      <section class="section band-sld">
+        <div class="left">
+          <h2 class="section-title">3. Specific Learning Disability</h2>
+          <label class="inline-check"><input id="sldIQConfirmed" type="checkbox" /> <span>IQ ≥ 85 confirmed</span></label>
+          <label>SLD Positive via NIMHANS battery or his/ her GLAD score is below 40%, for the child’s current class level</label>
+          <select id="sldPos"><option value=""></option><option value="yes">Yes</option><option value="no">No</option></select>
+          <div id="sldLockNote" class="note" style="color:#855"></div>
+        </div>
+        <div class="right">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start">
+            <div style="flex:1">
+              <div style="display:flex;justify-content:space-between;align-items:center">
+                <div style="font-weight:800">Result:</div>
+                <button class="tooltipBtn" type="button" data-target="sldTip">i</button>
+              </div>
+              <div id="sldRemark" class="remark" style="border-left-color:#8e44ad">Result: —</div>
+              <div id="sldTip" class="tooltip">Para 3.2.3 — MSJE Notification (12 Mar 2024). NIMHANS SLD criteria & Rule 22.3 (IQ ≥85).</div>
+            </div>
+            <div style="width:110px;margin-left:12px">
+              <div style="color:#666;font-size:.9rem;text-align:right">Disability</div>
+              <div id="sldPercent" class="result-percent">—</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- IDEAS master collapse -->
+      <div style="margin:12px 0">
+        <button id="ideasMasterToggle" class="collapse-toggle no-print" type="button">Show Mental Illness (IDEAS) section</button>
+      </div>
+
+      <section id="ideasSection" class="section band-ideas" style="display:none">
+        <div class="left">
+          <h2 class="section-title">4. Mental Illness — IDEAS Scale</h2>
+
+          <!-- MI1 visible -->
+          <div style="margin-bottom:12px;padding:10px;border-radius:6px;background:#fff;border:1px solid #e9f3ea">
+            <div style="font-weight:800;margin-bottom:6px">Mental Illness 1</div>
+            <label>Diagnosis</label><input id="diagnosis1" placeholder="e.g., Schizophrenia" />
+            <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:8px">
+              <div><label>Self Care (0–4)</label><input id="selfcare1" type="number" min="0" max="4" /></div>
+              <div><label>Interpersonal (0–4)</label><input id="interpersonal1" type="number" min="0" max="4" /></div>
+              <div><label>Communication (0–4)</label><input id="communication1" type="number" min="0" max="4" /></div>
+              <div><label>Work (0–4)</label><input id="work1" type="number" min="0" max="4" /></div>
+            </div>
+            <label style="margin-top:8px">Duration of Illness (select bucket)</label>
+            <select id="durationBucket1">
+              <option value="">-- Select Duration --</option>
+              <option value="1">&lt; 2 years (+1)</option>
+              <option value="2">2–5 years (+2)</option>
+              <option value="3">6–10 years (+3)</option>
+              <option value="4">&gt; 10 years (+4)</option>
+            </select>
+            <div class="note">DOI dropdown ensures correct DOI scoring per Annexure (IDEAS).</div>
+          </div>
+
+          <!-- MI2 -->
+          <div style="margin-bottom:10px">
+            <button type="button" class="collapse-toggle no-print" data-target="mi2Block">Add/Show Mental Illness 2</button>
+            <div id="mi2Block" style="display:none;margin-top:8px;padding:10px;border-radius:6px;background:#fff;border:1px solid #e9f3ea">
+              <div style="font-weight:800;margin-bottom:6px">Mental Illness 2</div>
+              <label>Diagnosis</label><input id="diagnosis2" placeholder="e.g., OCD" />
+              <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:8px">
+                <div><label>Self Care (0–4)</label><input id="selfcare2" type="number" min="0" max="4" /></div>
+                <div><label>Interpersonal (0–4)</label><input id="interpersonal2" type="number" min="0" max="4" /></div>
+                <div><label>Communication (0–4)</label><input id="communication2" type="number" min="0" max="4" /></div>
+                <div><label>Work (0–4)</label><input id="work2" type="number" min="0" max="4" /></div>
+              </div>
+              <label style="margin-top:8px">Duration of Illness (select bucket)</label>
+              <select id="durationBucket2">
+                <option value="">-- Select Duration --</option>
+                <option value="1">&lt; 2 years (+1)</option>
+                <option value="2">2–5 years (+2)</option>
+                <option value="3">6–10 years (+3)</option>
+                <option value="4">&gt; 10 years (+4)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- MI3 -->
+          <div style="margin-bottom:10px">
+            <button type="button" class="collapse-toggle no-print" data-target="mi3Block">Add/Show Mental Illness 3</button>
+            <div id="mi3Block" style="display:none;margin-top:8px;padding:10px;border-radius:6px;background:#fff;border:1px solid #e9f3ea">
+              <div style="font-weight:800;margin-bottom:6px">Mental Illness 3</div>
+              <label>Diagnosis</label><input id="diagnosis3" placeholder="Diagnosis 3" />
+              <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:8px">
+                <div><label>Self Care (0–4)</label><input id="selfcare3" type="number" min="0" max="4" /></div>
+                <div><label>Interpersonal (0–4)</label><input id="interpersonal3" type="number" min="0" max="4" /></div>
+                <div><label>Communication (0–4)</label><input id="communication3" type="number" min="0" max="4" /></div>
+                <div><label>Work (0–4)</label><input id="work3" type="number" min="0" max="4" /></div>
+              </div>
+              <label style="margin-top:8px">Duration of Illness (select bucket)</label>
+              <select id="durationBucket3">
+                <option value="">-- Select Duration --</option>
+                <option value="1">&lt; 2 years (+1)</option>
+                <option value="2">2–5 years (+2)</option>
+                <option value="3">6–10 years (+3)</option>
+                <option value="4">&gt; 10 years (+4)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- MI4 -->
+          <div style="margin-bottom:6px">
+            <button type="button" class="collapse-toggle no-print" data-target="mi4Block">Add/Show Mental Illness 4</button>
+            <div id="mi4Block" style="display:none;margin-top:8px;padding:10px;border-radius:6px;background:#fff;border:1px solid #e9f3ea">
+              <div style="font-weight:800;margin-bottom:6px">Mental Illness 4</div>
+              <label>Diagnosis</label><input id="diagnosis4" placeholder="Diagnosis 4" />
+              <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:8px">
+                <div><label>Self Care (0–4)</label><input id="selfcare4" type="number" min="0" max="4" /></div>
+                <div><label>Interpersonal (0–4)</label><input id="interpersonal4" type="number" min="0" max="4" /></div>
+                <div><label>Communication (0–4)</label><input id="communication4" type="number" min="0" max="4" /></div>
+                <div><label>Work (0–4)</label><input id="work4" type="number" min="0" max="4" /></div>
+              </div>
+              <label style="margin-top:8px">Duration of Illness (select bucket)</label>
+              <select id="durationBucket4">
+                <option value="">-- Select Duration --</option>
+                <option value="1">&lt; 2 years (+1)</option>
+                <option value="2">2–5 years (+2)</option>
+                <option value="3">6–10 years (+3)</option>
+                <option value="4">&gt; 10 years (+4)</option>
+              </select>
+            </div>
+          </div>
+
+          <button type="button" class="lookupToggle no-print" data-target="ideasLookup">Show lookup table</button>
+          <div id="ideasLookup" class="lookupTable" aria-hidden="true"></div>
+          <div class="lookupNote">IDEAS total (0–20) → Disability % and Degree of Impairment mapping used for per-diagnosis calculations.</div>
+
+        </div>
+
+        <div class="right">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start">
+            <div style="flex:1">
+              <div style="display:flex;justify-content:space-between;align-items:center">
+                <div style="font-weight:800">Result:</div>
+                <button class="tooltipBtn" type="button" data-target="ideasTip">i</button>
+              </div>
+              <div id="ideasRemark" class="remark" style="border-left-color:#2e9f6e">Result: —</div>
+              <div id="ideasTip" class="tooltip">Para 3.2.4 — MSJE Notification (12 Mar 2024) & updated IDEAS % mapping per DGAFMS table.</div>
+            </div>
+            <div style="width:160px;margin-left:12px;text-align:right">
+              <div style="color:#666;font-size:.9rem">Per-diagnosis %</div>
+              <div id="ideasPercents" style="font-weight:900;font-size:1.05rem;margin-top:6px">—</div>
+              <div id="ideasCombinedBox">Total MI %: —</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- summary column -->
+      <div style="display:flex;gap:12px;align-items:flex-start;margin-top:8px">
+        <div style="flex:1"></div>
+        <div style="width:360px">
+          <div style="padding:12px;border-radius:8px;background:#eef6ff;border:1px solid #dce9ff">
+            <div style="font-weight:900;color:var(--primary);margin-bottom:6px">Disability Summary</div>
+            <div style="display:flex;justify-content:space-between"><div class="note" id="sumVLabel">Intellectual Disability</div><div id="sumV" style="font-weight:800">—</div></div>
+            <div style="display:flex;justify-content:space-between;margin-top:6px"><div class="note">Autism Spectrum Disorder</div><div id="sumA" style="font-weight:800">—</div></div>
+            <div style="display:flex;justify-content:space-between;margin-top:6px"><div class="note">Specific Learning Disability</div><div id="sumS" style="font-weight:800">—</div></div>
+            <div style="display:flex;justify-content:space-between;margin-top:6px"><div class="note">Mental Illness</div><div id="sumM" style="font-weight:800">—</div></div>
+
+            <div style="margin-top:12px;padding:10px;border-radius:8px;background:#f4e9ff;color:var(--accent);font-weight:900;text-align:right">
+              Final Combined: <span id="finalCombined">—</span>
+            </div>
+            <div style="font-size:.85rem;color:#444;margin-top:8px">Combined formula: A + B(90 − A)/90 (iterative for &gt;2)</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bottom-bar no-print">
+        <button id="printBottom" class="btn small">🖨 Print / Save PDF</button>
+        <button id="exportCsvBottom" class="btn small">📁 Export CSV</button>
+      </div>
+
+    </form>
+
+    <div style="margin-top:12px;font-size:.92rem;color:var(--muted)">Prepared using MSJE (Dept. EPwD) quick-reference logic. Verify against full Gazette notifications before issuing certificates.</div>
+
+  </div>
+
+  <!-- fixed minimal LinkedIn footer (text link only) -->
+  <div class="creator" role="contentinfo">
+    <span>Tool prepared by Surg Cdr Jithin Raj M</span>
+    <a href="https://www.linkedin.com/in/dr-jithin-raj-malayil-533420108/" target="_blank" rel="noopener" style="margin-left:8px;color:var(--linkedin)">LinkedIn</a>
+  </div>
+
+<script>
+/* v3.4.6 - Adds lookup table display for VSMS, ISAA, and IDEAS (collapsible).
+   All previous logic preserved:
+   - GDD for age < 5
+   - IQ input shown when age >= 5 (not used in % calc)
+   - INCLEN manual percent input (60-79) when INCLEN checked
+   - ISAA uses uploaded discrete mapping (score->percent)
+   - IDEAS uses uploaded mapping (total->percent & degree)
+*/
+
+/* --- Lookup & mapping data --- */
+
+/* VSMS mapping */
+const vsmsTable = [
+  { lo:0, hi:20, diagnosis: 'Profound Intellectual Disability', percent: 100 },
+  { lo:21, hi:35, diagnosis: 'Severe Intellectual Disability', percent: 90 },
+  { lo:36, hi:54, diagnosis: 'Moderate Intellectual Disability', percent: 75 },
+  { lo:55, hi:69, diagnosis: 'Mild Intellectual Disability', percent: 50 },
+  { lo:70, hi:84, diagnosis: 'Borderline Intellectual Disability', percent: 25 }
+];
+
+/* ISAA percent lookup (imported from your Excel).
+   Keys are ISAA integer scores; values are Disability %.
+   Scores > 158 use 100%.
+*/
+const isaaPercentLookup = {
+  70: 40,71:41,72:41,73:42,74:42,75:43,76:43,77:44,78:44,79:45,
+  80:46,81:46,82:47,83:47,84:48,85:48,86:49,87:49,88:50,89:51,
+  90:51,91:52,92:52,93:53,94:53,95:54,96:55,97:55,98:56,99:56,
+  100:57,101:58,102:58,103:59,104:59,105:60,106:61,107:61,108:62,109:62,
+  110:63,111:63,112:64,113:64,114:65,115:66,116:66,117:67,118:67,119:68,
+  120:68,121:69,122:69,123:70,124:71,125:71,126:72,127:72,128:73,129:73,
+  130:74,131:75,132:75,133:76,134:76,135:77,136:78,137:78,138:79,139:79,
+  140:80,141:81,142:81,143:82,144:82,145:83,146:83,147:84,148:84,149:85,
+  150:85,151:86,152:86,153:87,154:87,155:88,156:88,157:89,158:90
+};
+const isaaAbove158Percent = 100;
+
+/* IDEAS mapping (uploaded DGAFMS table) */
+const ideasPercentTable = {
+  0:0,1:5,2:5,3:10,4:10,5:20,6:30,7:40,8:45,9:50,10:55,11:60,12:65,13:70,14:75,15:80,16:85,17:90,18:95,19:99,20:100
+};
+const ideasDegreeTable = {
+  0:'No Impairment',
+  1:'Mild Impairment',2:'Mild Impairment',3:'Mild Impairment',4:'Mild Impairment',5:'Mild Impairment',
+  6:'Mild Impairment',7:'Moderate Impairment',8:'Moderate Impairment',9:'Moderate Impairment',
+  10:'Moderate Impairment',11:'Moderate Impairment',12:'Moderate Impairment',13:'Moderate Impairment',
+  14:'Severe Impairment',15:'Severe Impairment',16:'Severe Impairment',17:'Severe Impairment',
+  18:'Severe Impairment',19:'Severe Impairment',20:'Profound Impairment'
+};
+
+/* --- Helpers --- */
+function toInt(v, fallback=0){ if(v===undefined||v===null||v==='') return fallback; const n=Number(String(v).trim()); return isNaN(n)?fallback:Math.floor(n); }
+function clampInt(v, lo, hi){ if(v===undefined||v===null||v==='') return null; const n=Number(String(v).trim()); if(isNaN(n)) return null; const i=Math.floor(n); if(i<lo||i>hi) return null; return i; }
+
+/* --- Mapping functions --- */
+function mapVsmsScore(score){
+  const s = toInt(score, -1);
+  if(s < 0) return {percent:0, diagnosis:'Not entered', rawScore:null};
+  for(let i=0;i<vsmsTable.length;i++){
+    if(s >= vsmsTable[i].lo && s <= vsmsTable[i].hi){
+      return {percent: vsmsTable[i].percent, diagnosis: vsmsTable[i].diagnosis, rawScore: s};
+    }
+  }
+  return {percent:0, diagnosis:'Not eligible (NI)', rawScore:s};
+}
+
+function mapIsaaScore(score){
+  const sRaw = String(score || '').trim();
+  if(sRaw === '') return {percent:0, degree:'Not entered', label:'ISAA not entered', rawScore:null};
+  const s = Number(sRaw);
+  if(isNaN(s)) return {percent:0, degree:'Not entered', label:'ISAA invalid', rawScore:null};
+
+  if(s < 70) return {percent:0, degree:'Normal', label:'Normal / Not eligible', rawScore: s};
+  if(s > 158) return {percent: isaaAbove158Percent, degree: 'Severe', label: `Severe (≈ ${isaaAbove158Percent}%)`, rawScore: s};
+
+  if(isaaPercentLookup.hasOwnProperty(s)){
+    const pct = isaaPercentLookup[s];
+    let degree = 'Mild';
+    if(s >= 70 && s <= 106) degree = 'Mild';
+    else if(s >= 107 && s <= 153) degree = 'Moderate';
+    else if(s > 153) degree = 'Severe';
+    return {percent: pct, degree: degree, label: `${degree} (≈ ${pct}%)`, rawScore: s};
+  }
+
+  // fallback to nearest lower key
+  const keys = Object.keys(isaaPercentLookup).map(x=>Number(x)).sort((a,b)=>a-b);
+  let chosen = keys[0];
+  for(let i=0;i<keys.length;i++){
+    if(keys[i] <= s) chosen = keys[i];
+    else break;
+  }
+  const pct = isaaPercentLookup[chosen];
+  let degree = 'Mild';
+  if(s >= 70 && s <= 106) degree = 'Mild';
+  else if(s >= 107 && s <= 153) degree = 'Moderate';
+  else if(s > 153) degree = 'Severe';
+  return {percent: pct, degree: degree, label: `${degree} (≈ ${pct}%)`, rawScore: s};
+}
+
+function ideasPercentFromTotal(total){
+  total = toInt(total, 0);
+  if(total < 0) return 0;
+  if(total > 20) total = 20;
+  return ideasPercentTable[total] || 0;
+}
+function ideasDegreeFromTotal(total){
+  total = toInt(total, 0);
+  if(total < 0) return 'Not entered';
+  if(total > 20) total = 20;
+  return ideasDegreeTable[total] || 'Not entered';
+}
+
+function getSldPercent(val){
+  if(!val) return {label:'Not entered',percent:0};
+  if(val==='yes') return {label:'Benchmark disability (≥40%)',percent:40};
+  return {label:'Not eligible (NI)',percent:0};
+}
+
+function combineDisabilities(percentages){
+  const p=percentages.filter(x=>x>0).sort((a,b)=>b-a);
+  if(p.length===0) return null;
+  if(p.length===1) return p[0];
+  let combined=p[0];
+  for(let i=1;i<p.length;i++){
+    const B=p[i];
+    combined = combined + (B * (90 - combined) / 90);
+  }
+  return Math.round(combined);
+}
+
+/* --- UI update --- */
+function updateAllResults(){
+  // VSMS
+  const vsmsVal = document.getElementById('vsmsScore').value;
+  const vsmsMapped = mapVsmsScore(vsmsVal);
+  document.getElementById('vsmsPercent').innerText = vsmsMapped.percent ? vsmsMapped.percent + '%' : '—';
+
+  let vsmsRemark = '';
+  const age = toInt(document.getElementById('page').value,0);
+
+  // show/hide IQ row
+  const vsmsIQRow = document.getElementById('vsmsIQRow');
+  if(vsmsIQRow){
+    if(age >= 5) vsmsIQRow.style.display = 'block';
+    else vsmsIQRow.style.display = 'none';
+  }
+
+  // dynamic title & summary label
+  const vsmsTitleEl = document.getElementById('vsmsTitle');
+  const sumVLabelEl = document.getElementById('sumVLabel');
+  let diagLabelForTitle = '1. Intellectual Disability';
+  let diagShortLabel = 'Intellectual Disability';
+  if(age && age < 5){
+    diagLabelForTitle = '1. Global Developmental Delay (GDD)';
+    diagShortLabel = 'Global Developmental Delay (GDD)';
+  }
+  if(vsmsTitleEl) vsmsTitleEl.innerText = diagLabelForTitle;
+  if(sumVLabelEl) sumVLabelEl.innerText = diagShortLabel;
+
+  // shown diagnosis
+  let shownDiagnosisLabel = '';
+  if(age && age < 5){
+    shownDiagnosisLabel = 'Global Developmental Delay (GDD)';
+  } else {
+    shownDiagnosisLabel = vsmsMapped.diagnosis || '—';
+  }
+
+  // compose remark
+  if(vsmsMapped.rawScore !== null && vsmsMapped.rawScore !== undefined){
+    if(age && age < 5){
+      vsmsRemark = `Result: Global Developmental Delay (GDD) – VSMS Score ${vsmsVal||'-'} → Temporary certificate (valid until age 5).`;
+    } else {
+      if(vsmsMapped.percent > 0){
+        let next='';
+        if(vsmsMapped.percent>=80) next = (age>=18)?'Valid Lifelong (18+).':'Re-assessment at 18 years.';
+        else {
+          if(age && age<10) next='Re-assessment at age 10.';
+          else if(age && age<18) next='Re-assessment at age 18.';
+          else next='Valid Lifelong (18+).';
+        }
+        vsmsRemark = `Result: ${vsmsMapped.diagnosis} – VSMS Score ${vsmsVal||'-'} → ${vsmsMapped.percent}%\\n\\nValidity/Review: ${next}`;
+      } else {
+        vsmsRemark = `Result: VSMS ${vsmsVal||'-'} — Not eligible / Not mapped in table.`;
+      }
+    }
+  } else {
+    vsmsRemark = 'Result: VSMS not entered / Not eligible.';
+  }
+
+  document.getElementById('vsmsRemark').innerText = vsmsRemark;
+  document.getElementById('vsmsDegree').innerText = shownDiagnosisLabel;
+  document.getElementById('sumV').innerText = vsmsMapped.percent ? vsmsMapped.percent + '%' : '—';
+
+  // ISAA/ASD
+  const ageVal = toInt(document.getElementById('page').value,0);
+  const inclenChecked = document.getElementById('inclenDiagnosed').checked;
+  const isaaVal = document.getElementById('isaaScore').value;
+
+  const inclenManualRow = document.getElementById('inclenManualRow');
+  const inclenManualInput = document.getElementById('inclenManualPercent');
+  let manualPerc = null;
+  if(inclenManualRow){
+    if(inclenChecked){
+      inclenManualRow.style.display = 'block';
+      document.getElementById('isaaScore').disabled = true;
+      const raw = inclenManualInput ? inclenManualInput.value : '';
+      manualPerc = clampInt(raw, 60, 79);
+    } else {
+      inclenManualRow.style.display = 'none';
+      document.getElementById('isaaScore').disabled = false;
+      if(inclenManualInput) inclenManualInput.value = '';
+    }
+  }
+
+  let isaaPercent=0, isaaRemark='', isaaDegree='—';
+  if(inclenChecked){
+    if(manualPerc === null){
+      isaaPercent = 0;
+      isaaRemark = 'Result: INCLEN checked — enter ASD Disability Percentage based on clinical assessment (60–79) to use INCLEN result.';
+      isaaDegree = '—';
+    } else {
+      isaaPercent = manualPerc;
+      isaaDegree = 'By clinical assessment';
+      isaaRemark = `Result: Autism Spectrum Disorder — INCLEN manual percent used: ${isaaPercent}% (entered clinically).\\n\\nValidity/Review: Re-assess between 6–7 years or as clinically indicated.`;
+    }
+  } else {
+    const mapped = mapIsaaScore(isaaVal);
+    isaaPercent = mapped.percent;
+    isaaDegree = (mapped.degree && mapped.degree!=='Not entered') ? mapped.degree : '—';
+    if(isaaPercent>0){
+      let next = (isaaPercent>40)?'Re-assessment at 18 years; certificate at 18+ permanent.':(ageVal>=18?'Permanent (Valid Lifelong).':'Re-assessment rules apply.');
+      isaaRemark = `Result: Autism Spectrum Disorder – ISAA Score ${mapped.rawScore || '-'} → ${mapped.label}\\n\\nValidity/Review: ${next}`;
+    } else {
+      if(mapped.rawScore !== null && mapped.rawScore >= 0 && mapped.rawScore < 70) {
+        isaaRemark = 'Result: ISAA indicates Normal (score <70) — not eligible based on ISAA.';
+      } else {
+        isaaRemark = 'Result: ISAA not eligible / Not entered.';
+      }
+    }
+  }
+
+  if(ageVal>0 && ageVal<6 && !inclenChecked){
+    if(isaaRemark.indexOf('INCLEN') === -1 && (isaaRemark==='Result: ISAA not eligible / Not entered.' || isaaRemark==='')) {
+      isaaRemark = 'Result: Age <6 — INCLEN may be preferred for young children (use INCLEN and enter clinical % if applicable).';
+    }
+  }
+
+  document.getElementById('isaaPercent').innerText = isaaPercent ? isaaPercent + '%' : '—';
+  document.getElementById('isaaRemark').innerText = isaaRemark;
+  document.getElementById('isaaDegree').innerText = isaaDegree;
+  document.getElementById('sumA').innerText = isaaPercent ? isaaPercent + '%' : '—';
+
+  // SLD
+  const sldIQ = document.getElementById('sldIQConfirmed').checked;
+  const sldVal = document.getElementById('sldPos').value;
+  const sldLockNote = document.getElementById('sldLockNote');
+  let sldRemark='', sldPercent=0;
+  if(ageVal===0){ sldLockNote.innerText='Enter age to check SLD criteria.'; document.getElementById('sldPos').disabled=true; }
+  else if(ageVal<8){ sldLockNote.innerText='Certification available only for age ≥ 8 years.'; document.getElementById('sldPos').disabled=true; }
+  else if(!sldIQ){ sldLockNote.innerText='IQ ≥ 85 must be confirmed for SLD certification (Rule 22.3).'; document.getElementById('sldPos').disabled=true; }
+  else { sldLockNote.innerText=''; document.getElementById('sldPos').disabled=false; }
+  if(!document.getElementById('sldPos').disabled && sldVal){
+    const res = getSldPercent(sldVal); sldPercent=res.percent;
+    sldRemark = `Result: Specific Learning Disability – ${res.label}\\n\\nValidity/Review: ${ ageVal >= 18 ? 'Valid Lifelong at 18+' : 'Repeat certification during Class X/XII if required.' }`;
+  } else if(document.getElementById('sldPos').disabled && sldVal==='yes'){ sldRemark='Result: SLD cannot be certified — criteria not met (age/IQ).'; sldPercent=0; }
+  else { sldRemark='Result: SLD not entered / Not eligible.'; sldPercent=0; }
+  document.getElementById('sldPercent').innerText = sldPercent ? sldPercent + '%' : '—';
+  document.getElementById('sldRemark').innerText = sldRemark;
+  document.getElementById('sumS').innerText = sldPercent ? sldPercent + '%' : '—';
+
+  // IDEAS - updated mapping used here
+  const ideaPercents=[]; const ideaRemarksArr=[];
+  for(let i=1;i<=4;i++){
+    const dName=(document.getElementById('diagnosis'+i)?.value || '').trim();
+    const s1=toInt(document.getElementById('selfcare'+i)?.value,0);
+    const s2=toInt(document.getElementById('interpersonal'+i)?.value,0);
+    const s3=toInt(document.getElementById('communication'+i)?.value,0);
+    const s4=toInt(document.getElementById('work'+i)?.value,0);
+    const doiVal = document.getElementById('durationBucket'+i)?.value;
+    if(!dName && s1+s2+s3+s4===0 && (!doiVal || doiVal==='')) continue;
+    const doiScore = toInt(doiVal,0);
+    const domainTotal = s1 + s2 + s3 + s4;
+    const totalScore = domainTotal + doiScore;
+    let totalClamped = totalScore;
+    if(totalClamped < 0) totalClamped = 0;
+    if(totalClamped > 20) totalClamped = 20;
+    const pct = ideasPercentFromTotal(totalClamped);
+    ideaPercents.push(pct);
+    const degreeLabel = ideasDegreeFromTotal(totalClamped);
+    let remark = `Mental Illness ${i}${dName?(' ('+dName+')'):''} — ${pct}% (${degreeLabel}) (Total IDEAS Score ${totalClamped}).`;
+    if(doiScore === 0) remark += ' Duration not selected → Duration-based validity not met.';
+    else {
+      if(pct >= 80) remark += ' Severe/profound → Permanent may be considered.';
+      else if(doiScore >= 2) remark += ' Duration ≥2 yrs → Permanent possible after treatment.';
+      else remark += ' Duration <2 yrs → Time-valid certification only.';
+    }
+    ideaRemarksArr.push(remark);
+  }
+  const percentsText = ideaPercents.length ? ideaPercents.map((p,i)=>`MI${i+1}: ${p}%`).join(' | ') : '—';
+  document.getElementById('ideasPercents').innerText = percentsText;
+  document.getElementById('ideasRemark').innerText = ideaRemarksArr.join('\\n\\n') || 'Result: No mental illness entries.';
+  const combinedMI = combineDisabilities(ideaPercents) || 0;
+  document.getElementById('ideasCombinedBox').innerText = 'Total MI %: ' + (combinedMI ? combinedMI + '%' : '—');
+  document.getElementById('sumM').innerText = combinedMI ? combinedMI + '%' : '—';
+
+  // Final combination
+  const allPercents=[];
+  if(vsmsMapped.percent>0) allPercents.push(vsmsMapped.percent);
+  if(isaaPercent>0) allPercents.push(isaaPercent);
+  if(sldPercent>0) allPercents.push(sldPercent);
+  if(combinedMI>0) allPercents.push(combinedMI);
+  const finalCombined = (allPercents.length >= 1) ? combineDisabilities(allPercents) : null;
+  document.getElementById('finalCombined').innerText = finalCombined !== null ? (finalCombined + '%') : '—';
+}
+
+/* --- Lookup table rendering & toggles --- */
+function renderVsmsLookup(){
+  const container = document.getElementById('vsmsLookup');
+  if(!container) return;
+  let html = '<table><thead><tr><th>VSMS score range</th><th>Diagnosis</th><th>Disability %</th></tr></thead><tbody>';
+  vsmsTable.forEach(r=>{
+    html += `<tr><td>${r.lo} – ${r.hi}</td><td>${r.diagnosis}</td><td>${r.percent}%</td></tr>`;
+  });
+  html += '</tbody></table>';
+  container.innerHTML = html;
+}
+
+function renderIsaaLookup(){
+  const container = document.getElementById('isaaLookup');
+  if(!container) return;
+  // produce table rows sorted by score
+  const keys = Object.keys(isaaPercentLookup).map(x=>Number(x)).sort((a,b)=>a-b);
+  let html = '<table><thead><tr><th>ISAA Score</th><th>Disability %</th></tr></thead><tbody>';
+  for(const k of keys){
+    html += `<tr><td>${k}</td><td>${isaaPercentLookup[k]}%</td></tr>`;
+  }
+  html += `<tr><td>&gt;158</td><td>${isaaAbove158Percent}%</td></tr>`;
+  html += '</tbody></table>';
+  container.innerHTML = html;
+}
+
+function renderIdeasLookup(){
+  const container = document.getElementById('ideasLookup');
+  if(!container) return;
+  let html = '<table><thead><tr><th>IDEAS total</th><th>Disability %</th><th>Degree</th></tr></thead><tbody>';
+  for(let t=0;t<=20;t++){
+    html += `<tr><td>${t}</td><td>${ideasPercentTable[t]}%</td><td>${ideasDegreeTable[t]}</td></tr>`;
+  }
+  html += '</tbody></table>';
+  container.innerHTML = html;
+}
+
+function setupLookupToggles(){
+  document.querySelectorAll('.lookupToggle').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const tid = btn.getAttribute('data-target');
+      const el = document.getElementById(tid);
+      if(!el) return;
+      if(el.style.display === '' || el.style.display === 'none'){
+        el.style.display = 'block';
+        el.setAttribute('aria-hidden','false');
+        btn.innerText = 'Hide lookup table';
+      } else {
+        el.style.display = 'none';
+        el.setAttribute('aria-hidden','true');
+        btn.innerText = 'Show lookup table';
+      }
+    });
+  });
+}
+
+/* --- UI wiring (other) --- */
+document.querySelectorAll('.tooltipBtn').forEach(btn=>{
+  btn.addEventListener('click', ()=> {
+    const tid = btn.getAttribute('data-target');
+    const el = document.getElementById(tid);
+    if(!el) return;
+    el.classList.toggle('show');
+  });
+});
+
+document.getElementById('ideasMasterToggle').addEventListener('click', function(){
+  const sec = document.getElementById('ideasSection');
+  if(sec.style.display === 'none' || sec.style.display === ''){ sec.style.display='grid'; this.innerText='Hide Mental Illness (IDEAS) section'; window.scrollTo({top: sec.offsetTop - 60, behavior:'smooth'}); }
+  else { sec.style.display='none'; this.innerText='Show Mental Illness (IDEAS) section'; }
+  updateAllResults();
+});
+
+document.querySelectorAll('.collapse-toggle').forEach(btn=>{
+  btn.addEventListener('click', ()=>{ 
+    const tid = btn.getAttribute('data-target');
+    const el = document.getElementById(tid);
+    if(!el) return;
+    if(el.style.display === 'none' || el.style.display === ''){ el.style.display='block'; btn.innerText = btn.innerText.replace('Add/Show','Hide'); }
+    else { el.style.display='none'; btn.innerText = btn.innerText.replace('Hide','Add/Show'); }
+    updateAllResults();
+  });
+});
+
+// wire INCLEN checkbox to show manual percent input and re-calc
+const inclenCheckbox = document.getElementById('inclenDiagnosed');
+if(inclenCheckbox){
+  inclenCheckbox.addEventListener('change', ()=> {
+    updateAllResults();
+  });
+}
+
+// inputs
+const inputs = Array.from(document.querySelectorAll('input,select'));
+inputs.forEach(el => el.addEventListener('input', updateAllResults));
+inputs.forEach(el => el.addEventListener('change', updateAllResults));
+
+// Reset
+document.getElementById('resetTop').addEventListener('click', ()=>{
+  if(!confirm('Reset all fields?')) return;
+  document.getElementById('disabForm').reset();
+  ['mi2Block','mi3Block','mi4Block'].forEach(id=>{ const e=document.getElementById(id); if(e) e.style.display='none'; });
+  document.getElementById('ideasSection').style.display='none';
+  document.getElementById('ideasMasterToggle').innerText='Show Mental Illness (IDEAS) section';
+  // hide lookups
+  document.querySelectorAll('.lookupTable').forEach(el=>{ el.style.display='none'; });
+  document.querySelectorAll('.lookupToggle').forEach(btn=>{ btn.innerText='Show lookup table'; });
+  updateAllResults();
+});
+
+// Print handlers
+document.getElementById('printTop').addEventListener('click', ()=> printHandler());
+document.getElementById('printBottom').addEventListener('click', ()=> printHandler());
+
+function printHandler(){
+  updateAllResults();
+  const pname = document.getElementById('pname').value || '-';
+  const page = document.getElementById('page').value || '-';
+  const psex = document.getElementById('psex').value || '-';
+  const adate = document.getElementById('adate').value || '-';
+  const psy = document.getElementById('psycname').value || '-';
+  const rci = document.getElementById('rci').value || '-';
+  const vsPerc = document.getElementById('vsmsPercent').innerText;
+  const vsRemark = document.getElementById('vsmsRemark').innerText.replace(/\\n/g,'<br>');
+  const vsIQ = document.getElementById('vsmsIQ') ? (document.getElementById('vsmsIQ').value || '-') : '-';
+  const vsDiag = document.getElementById('vsmsDegree') ? (document.getElementById('vsmsDegree').innerText || '-') : '-';
+
+  // ISAA/INCLEN printed info
+  const inclenChecked = document.getElementById('inclenDiagnosed').checked;
+  const inclenManual = document.getElementById('inclenManualPercent') ? (document.getElementById('inclenManualPercent').value || '-') : '-';
+  const aaPerc = document.getElementById('isaaPercent').innerText;
+  const aaDegree = document.getElementById('isaaDegree').innerText || '-';
+  const aaRemark = document.getElementById('isaaRemark').innerText.replace(/\\n/g,'<br>');
+  const slPerc = document.getElementById('sldPercent').innerText;
+  const slRemark = document.getElementById('sldRemark').innerText.replace(/\\n/g,'<br>');
+  const miPercents = document.getElementById('ideasPercents').innerText;
+  const miRemarks = document.getElementById('ideasRemark').innerText.replace(/\\n/g,'<br>');
+  const miCombined = document.getElementById('ideasCombinedBox').innerText;
+  const finalC = document.getElementById('finalCombined').innerText;
+  const now = new Date().toLocaleString();
+
+  const ageNum = (page === '-') ? null : toInt(page, 0);
+  let vsmsPrintTitle = '1. Intellectual Disability';
+  if(ageNum !== null && ageNum < 5) vsmsPrintTitle = '1. Global Developmental Delay (GDD)';
+
+  let inclenLine = '';
+  if(inclenChecked){
+    inclenLine = `<div style="margin-top:6px;color:#333"><b>ASD Disability Percentage (clinical):</b> ${inclenManual}</div>`;
+  }
+
+  const printable = `
+  <div style="font-family:Arial,Helvetica,sans-serif;color:#222">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <div style="font-weight:800;color:#2f49a6">Disability Assessment Tool — Quick Reference</div>
+      <div style="font-size:13px;color:#2f49a6">Tool prepared by Surg Cdr Jithin Raj M — <a href="https://www.linkedin.com/in/dr-jithin-raj-malayil-533420108/" style="color:#2f49a6">LinkedIn</a></div>
+    </div>
+
+    <div style="margin-top:14px;font-size:15px">
+      <div style="font-weight:700">Patient: ${pname} &nbsp;&nbsp; Age: ${page} yrs &nbsp;&nbsp; Sex: ${psex}</div>
+      <div style="margin-top:6px">Assessment Date: ${adate} &nbsp;&nbsp; Assessor: ${psy} &nbsp;&nbsp; RCI: ${rci}</div>
+    </div>
+
+    <hr style="margin:12px 0">
+
+    <div style="margin-top:6px"><h3 style="margin:6px 0 4px 0;color:#333">${vsmsPrintTitle}</h3>
+      <div><b>Diagnosis/Result:</b> ${vsDiag} — ${vsPerc}</div>
+      <div style="margin-top:6px;color:#333">${vsRemark}</div>
+      <div style="margin-top:6px;color:#333"><b>IQ Score:</b> ${vsIQ}</div>
+    </div>
+
+    <div style="margin-top:12px"><h3 style="margin:6px 0 4px 0;color:#333">2. Autism Spectrum Disorder</h3>
+      <div><b>Result:</b> ${aaPerc} &nbsp; <span style="font-weight:700">(${aaDegree})</span></div>
+      <div style="margin-top:6px;color:#333">${aaRemark}</div>
+      ${inclenLine}
+    </div>
+
+    <div style="margin-top:12px"><h3 style="margin:6px 0 4px 0;color:#333">3. Specific Learning Disability</h3>
+      <div><b>Result:</b> ${slPerc}</div>
+      <div style="margin-top:6px;color:#333">${slRemark}</div>
+    </div>
+
+    <div style="margin-top:12px"><h3 style="margin:6px 0 4px 0;color:#333">4. Mental Illness (IDEAS)</h3>
+      <div><b>Per-diagnosis %:</b> ${miPercents}</div>
+      <div style="margin-top:6px;color:#333">${miRemarks}</div>
+      <div style="margin-top:8px"><b>${miCombined}</b></div>
+    </div>
+
+    <div style="margin-top:14px;padding:12px;background:#f4e9ff;border-radius:8px;color:#501177;font-weight:800;text-align:right;font-size:18px">
+      Final Combined Disability Percentage: ${finalC}
+    </div>
+
+    <div style="margin-top:10px;font-size:13px;color:#666">Generated: ${now} — Quick reference output (verify against full Gazette notifications before issuing certificates).</div>
+
+    <div style="margin-top:14px;font-size:13px;color:#333">
+      <strong>References:</strong><br>
+      MSJE (Dept. EPwD) Notification — 12 Mar 2024 (Paras 3.2.1–3.2.4).<br>
+      Annexure-II No. 4-2/83-HW.III, Govt. of India, Ministry of Welfare — 6 Aug 1986 (IDEAS).
+    </div>
+  </div>
+  `;
+  const w = window.open('','', 'width=900,height=800');
+  const docHtml = `<!doctype html><html><head><meta charset="utf-8"><title>Disability Certificate</title><meta name="viewport" content="width=device-width,initial-scale=1"><style>
+    body{font-family:Arial,Helvetica,sans-serif;padding:22px;color:#222;font-size:15px;line-height:1.45}
+    h2{color:#2f49a6;font-size:20px;margin:0 0 6px 0}
+    h3{font-size:16px;margin:8px 0}
+    .remark{font-size:14px;color:#222}
+    .final-box{margin-top:14px;padding:14px;background:#f4e9ff;border-radius:8px;color:#501177;font-weight:800;text-align:right;font-size:18px}
+    a{color:#2f49a6}
+    .footer-link{position:fixed;right:12px;bottom:12px;font-size:13px;color:#2f49a6;background:#e8f2ff;padding:6px 8px;border-radius:6px;border:1px solid #d1e4ff}
+  </style></head><body>` + printable + `<div class="footer-link">Tool prepared by Surg Cdr Jithin Raj M — <a href="https://www.linkedin.com/in/dr-jithin-raj-malayil-533420108/" style="color:#2f49a6">LinkedIn</a></div></body></html>`;
+  w.document.open();
+  w.document.write(docHtml);
+  w.document.close();
+  w.focus();
+  setTimeout(()=>{ w.print(); }, 500);
+}
+
+// CSV export
+function buildCsvRows(){
+  updateAllResults();
+  const rows = [];
+  const pname = document.getElementById('pname').value || '';
+  const page = document.getElementById('page').value || '';
+  const psex = document.getElementById('psex').value || '';
+  const adate = document.getElementById('adate').value || '';
+  const psy = document.getElementById('psycname').value || '';
+  const rci = document.getElementById('rci').value || '';
+
+  rows.push(['Section','Field','Value']);
+  rows.push(['Patient','Name',pname]);
+  rows.push(['Patient','Age',page]);
+  rows.push(['Patient','Sex',psex]);
+  rows.push(['Patient','AssessmentDate',adate]);
+  rows.push(['Patient','Assessor',psy]);
+  rows.push(['Patient','RCI',rci]);
+
+  // VSMS
+  const vsmsScore = document.getElementById('vsmsScore').value || '';
+  const vsmsPercent = document.getElementById('vsmsPercent').innerText || '';
+  const vsmsDiagLabel = document.getElementById('vsmsDegree') ? document.getElementById('vsmsDegree').innerText : 'Intellectual Disability';
+  const vsmsIQ = document.getElementById('vsmsIQ') ? (document.getElementById('vsmsIQ').value || '') : '';
+  rows.push(['VSMS','DiagnosisLabel', vsmsDiagLabel]);
+  rows.push(['VSMS','IQ', vsmsIQ]);
+  rows.push(['VSMS','Score',vsmsScore]);
+  rows.push(['VSMS','Percent',vsmsPercent]);
+  rows.push(['VSMS','Remark', document.getElementById('vsmsRemark').innerText || '']);
+
+  // ISAA/ASD
+  const inclen = document.getElementById('inclenDiagnosed').checked ? 'Yes' : 'No';
+  const inclenManual = document.getElementById('inclenManualPercent') ? (document.getElementById('inclenManualPercent').value || '') : '';
+  const isaaScore = document.getElementById('isaaScore').value || '';
+  const isaaPercent = document.getElementById('isaaPercent').innerText || '';
+  const isaaDegree = document.getElementById('isaaDegree').innerText || '';
+  rows.push(['ASD','INCLEN diagnosed', inclen]);
+  rows.push(['ASD','ASD Disability Percentage based on Clinical assessment', inclenManual]);
+  rows.push(['ASD','ISAA Score', isaaScore]);
+  rows.push(['ASD','Percent', isaaPercent]);
+  rows.push(['ASD','Degree', isaaDegree]);
+  rows.push(['ASD','Remark', document.getElementById('isaaRemark').innerText || '']);
+
+  // SLD
+  const sldIQ = document.getElementById('sldIQConfirmed').checked ? 'Yes' : 'No';
+  const sldPos = document.getElementById('sldPos').value || '';
+  const sldPercent = document.getElementById('sldPercent').innerText || '';
+  rows.push(['SLD','IQ>=85', sldIQ]);
+  rows.push(['SLD','NIMHANS positive', sldPos]);
+  rows.push(['SLD','Percent', sldPercent]);
+  rows.push(['SLD','Remark', document.getElementById('sldRemark').innerText || '']);
+
+  // IDEAS
+  for(let i=1;i<=4;i++){
+    const diag = document.getElementById('diagnosis'+i)?.value || '';
+    const s1 = document.getElementById('selfcare'+i)?.value || '';
+    const s2 = document.getElementById('interpersonal'+i)?.value || '';
+    const s3 = document.getElementById('communication'+i)?.value || '';
+    const s4 = document.getElementById('work'+i)?.value || '';
+    const doiVal = document.getElementById('durationBucket'+i)?.value || '';
+    if(!diag && !s1 && !s2 && !s3 && !s4 && !doiVal) continue;
+    const domainTotal = (toInt(s1,0)+toInt(s2,0)+toInt(s3,0)+toInt(s4,0));
+    const doiScore = toInt(doiVal,0);
+    const totalScore = domainTotal + doiScore;
+    let totalClamped = totalScore;
+    if(totalClamped < 0) totalClamped = 0;
+    if(totalClamped > 20) totalClamped = 20;
+    const pct = ideasPercentFromTotal(totalClamped);
+    const deg = ideasDegreeFromTotal(totalClamped);
+    rows.push([`IDEAS - MI${i}`, 'Diagnosis', diag]);
+    rows.push([`IDEAS - MI${i}`, 'SelfCare', s1]);
+    rows.push([`IDEAS - MI${i}`, 'Interpersonal', s2]);
+    rows.push([`IDEAS - MI${i}`, 'Communication', s3]);
+    rows.push([`IDEAS - MI${i}`, 'Work', s4]);
+    rows.push([`IDEAS - MI${i}`, 'DOI bucket (score)', doiScore]);
+    rows.push([`IDEAS - MI${i}`, 'IDEAS Total Score', totalClamped]);
+    rows.push([`IDEAS - MI${i}`, 'Degree of Impairment', deg]);
+    rows.push([`IDEAS - MI${i}`, 'Percent', pct + '%']);
+  }
+  const totalMi = document.getElementById('ideasCombinedBox').innerText || '';
+  rows.push(['IDEAS','Total MI %', totalMi.replace('Total MI %: ','')]);
+  const finalC = document.getElementById('finalCombined').innerText || '';
+  rows.push(['Combined','Final Combined', finalC]);
+  return rows;
+}
+
+function downloadCsv(){
+  const rows = buildCsvRows();
+  const lines = rows.map(r=> r.map(field => `"`+String(field||'').replace(/"/g,'""')+`"`).join(',')).join('\\n');
+  const namePart = (document.getElementById('pname').value || 'patient').trim().replace(/\\s+/g,'_');
+  const datePart = new Date().toISOString().slice(0,10);
+  const filename = `Disability_Record_${namePart}_${datePart}.csv`;
+  const blob = new Blob([lines], {type:'text/csv;charset=utf-8;'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = filename; document.body.appendChild(a); a.click();
+  setTimeout(()=>{ URL.revokeObjectURL(url); a.remove(); }, 500);
+}
+
+document.getElementById('exportCsvTop').addEventListener('click', ()=> downloadCsv());
+document.getElementById('exportCsvBottom').addEventListener('click', ()=> downloadCsv());
+
+/* Initialize lookup tables and UI */
+document.addEventListener('DOMContentLoaded', ()=> {
+  renderVsmsLookup();
+  renderIsaaLookup();
+  renderIdeasLookup();
+  setupLookupToggles();
+  updateAllResults();
+});
+</script>
+</body>
+</html>
